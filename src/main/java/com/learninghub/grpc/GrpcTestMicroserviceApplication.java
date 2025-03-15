@@ -1,4 +1,4 @@
-package com.learninghub.grpc.grpc_test_microservice;
+package com.learninghub.grpc;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

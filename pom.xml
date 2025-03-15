@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="https://maven.apache.org/POM/4.0.0" xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="https://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -33,13 +33,23 @@
 		<spring-grpc.version>0.5.0</spring-grpc.version>
 	</properties>
 	<dependencies>
+		<!--Provides gRPC server and client capabilities.
+		Supports streaming, authentication, and reflection services.-->
 		<dependency>
 			<groupId>io.grpc</groupId>
 			<artifactId>grpc-services</artifactId>
 		</dependency>
+		<!-- Integrates Spring Boot with gRPC seamlessly.
+		Handles service registration, configuration, and lifecycle.
+		Provides an easier way to use gRPC with Spring dependency injection-->
 		<dependency>
 			<groupId>org.springframework.grpc</groupId>
 			<artifactId>spring-grpc-spring-boot-starter</artifactId>
+		</dependency>
+		<!--for debugging and expose as rest api for clients which dont support grpc-->
+		<dependency>
+   			 <groupId>org.springframework.boot</groupId>
+    		<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
 		<dependency>
@@ -58,9 +68,46 @@
 			<artifactId>spring-grpc-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<!-- Protobuf Java Runtime (Required for Serialization/Deserialization at Runtime) -->
+		<dependency>
+    		<groupId>com.google.protobuf</groupId>
+    		<artifactId>protobuf-java</artifactId>
+    		<version>${protobuf-java.version}</version>
+		</dependency>
+
+		<!-- gRPC Core (Core Library for gRPC) -->
+		<dependency>
+   			<groupId>io.grpc</groupId>
+    		<artifactId>grpc-core</artifactId>
+    		<version>${grpc.version}</version>
+		</dependency>
+
+		<!-- gRPC Stub (Required for Generating Stub Clients and Servers) -->
+		<dependency>
+   			 <groupId>io.grpc</groupId>
+   			 <artifactId>grpc-stub</artifactId>
+   			 <version>${grpc.version}</version>
+		</dependency>
+
+		<!-- gRPC Protobuf (Bridges Protobuf and gRPC) -->
+		<dependency>
+   			 <groupId>io.grpc</groupId>
+    		 <artifactId>grpc-protobuf</artifactId>
+    		 <version>${grpc.version}</version>
+		</dependency>
+
+		<!-- gRPC Netty (Required for Running gRPC Server with Netty) -->
+		<dependency>
+  		  	<groupId>io.grpc</groupId>
+   		 	<artifactId>grpc-netty-shaded</artifactId>
+    		<version>${grpc.version}</version>
+		</dependency>
+
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>
+		<!-- Defines compatible versions for gRPC-related dependencies
+		Ensures all gRPC libraries work together without conflicts-->
 			<dependency>
 				<groupId>org.springframework.grpc</groupId>
 				<artifactId>spring-grpc-dependencies</artifactId>
@@ -87,6 +134,9 @@
 					</execution>
 				</executions>
 			</plugin>
+			<!-- Protobuf Compiler (Required for gRPC)
+			gRPC messages and services are defined using Protocol Buffers (protobuf),
+			 which need to be compiled into Java code.-->
 			<plugin>
 				<groupId>org.xolstice.maven.plugins</groupId>
 				<artifactId>protobuf-maven-plugin</artifactId>
